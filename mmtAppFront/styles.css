@@ -1,14 +1,43 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    background-color: #121212; /* Dark background */
 }
 
-select, button {
-    margin: 10px;
+h1 {
+    color: #e50914; /* Netflix red */
+}
+
+.form-control {
+    background-color: #1c1c1c; /* Dark input fields */
+    color: #ffffff; /* White text */
+}
+
+.border-light {
+    border-color: #444444 !important; /* Light gray border */
 }
 
 #route-details {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px 0;
+    color: #ffffff; /* White text */
+}
+#route-details {
+    display: none; /* Hide initially */
+}
+#route-details {
+    color: #ffffff; /* White text */
+    background: linear-gradient(145deg, #2c2c2c, #1f1f1f); /* Subtle gradient */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5); /* Soft shadow */
+    padding: 20px; /* More padding for spacing */
+    margin-top: 20px; /* Spacing above the div */
+}
+
+/* Additional styling for individual route information */
+.route-info {
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    border: 1px solid #444; /* Border for each route */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Padding inside each route */
+    margin-bottom: 10px; /* Spacing between routes */
+}
+.btn {
+    margin-top: 10px; /* Optional: space between buttons */
 }
