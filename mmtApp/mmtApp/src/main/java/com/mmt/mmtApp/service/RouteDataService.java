@@ -1,4 +1,5 @@
 package com.mmt.mmtApp.service;
+
 import com.mmt.mmtApp.models.Route;
 import com.mmt.mmtApp.models.City;
 import com.mmt.mmtApp.repository.CityRepository;
@@ -15,6 +16,7 @@ public class RouteDataService {
     public RouteRepository routeRepository;
     @Autowired
     public CityRepository cityRepository;
+
     public class Structure1 {
         public double TimeInHrs;
         public String SourceCity;
@@ -23,19 +25,14 @@ public class RouteDataService {
         public String ModeOfTransport;
 
         public double Fare;
-        public Structure1(String sr, String de,String mode,double timeTravel,double Fare) {
+
+        public Structure1(String sr, String de, String mode, double timeTravel, double Fare) {
             this.SourceCity = sr;
             this.destinationCity = de;
             this.ModeOfTransport = mode;
             this.TimeInHrs = timeTravel;
             this.Fare = Fare;
         }
-
-
-
-//        private int field2;
-
-        // Constructors, getters, setters
     }
 
     public class Structure2 {
@@ -44,7 +41,7 @@ public class RouteDataService {
         public double TotalFare;
 
 
-        public Structure2(double TotalTime,double TotalFare){
+        public Structure2(double TotalTime, double TotalFare) {
             this.TotalFare = TotalFare;
             this.TotalTime = TotalTime;
 
@@ -52,10 +49,10 @@ public class RouteDataService {
 
         // Constructors, getters, setters
     }
+
     public static List<Route> routeData;
     public static List<City> cityData;
-    public static Map<Long,String> cityMap = new HashMap<>();
-
+    public static Map<Long, String> cityMap = new HashMap<>();
 
 
     public List<Route> getAllRouteData() {
@@ -63,14 +60,12 @@ public class RouteDataService {
         return routeData = routeRepository.findAll();
     }
 
-    public List<City> getCityData(){
+    public List<City> getCityData() {
 //        System.out.println(cityRepository.findAll());
         cityData = cityRepository.findAll();
 //        System.out.println(cityData);
         return cityRepository.findAll();
     }
-
-
 
 
     public static void printAdjacencyList(Map<Long, List<CityEdge>> adjacencyList) {
@@ -81,12 +76,13 @@ public class RouteDataService {
             System.out.print("City ID " + cityId + " is connected to: ");
 
             for (CityEdge edge : edges) {
-             System.out.print(cityId + " -> " + edge.getDestinationCityId() + " ");
+                System.out.print(cityId + " -> " + edge.getDestinationCityId() + " ");
             }
 
             System.out.println(); // Move to the next line for the next city
         }
     }
+
     public static CityAdjacencyList constructAdjacencyList(List<City> cityData, List<Route> routeData) {
         CityAdjacencyList adjacencyList = new CityAdjacencyList();
 
@@ -98,29 +94,22 @@ public class RouteDataService {
 
             adjacencyList.addEdge(sourceCityId, destinationCityId, travelTime, fare);
 
-            }
+        }
 
         return adjacencyList;
     }
 
 
-    public static List<List<Long>> findAllRouteIds(Long sourceCityId, Long destinationCityId,Map<Long, List<CityEdge>> adj) {
+    public static List<List<Long>> findAllRouteIds(Long sourceCityId, Long destinationCityId, Map<Long, List<CityEdge>> adj) {
         List<List<Long>> allRouteIds = new ArrayList<>();
         List<Long> currentRouteIds = new ArrayList<>();
         Set<Long> visitedCityIds = new HashSet<>();
 //        printAdjacencyList(adj);
-        findRouteIds(sourceCityId, destinationCityId, currentRouteIds, allRouteIds, visitedCityIds,adj);
+        findRouteIds(sourceCityId, destinationCityId, currentRouteIds, allRouteIds, visitedCityIds, adj);
         return allRouteIds;
     }
 
-    private static void findRouteIds(
-            Long currentCityId,
-            Long destinationCityId,
-            List<Long> currentRouteIds,
-            List<List<Long>> allRouteIds,
-            Set<Long> visitedCityIds,
-            Map<Long, List<CityEdge>> adj
-    ) {
+    private static void findRouteIds(Long currentCityId, Long destinationCityId, List<Long> currentRouteIds, List<List<Long>> allRouteIds, Set<Long> visitedCityIds, Map<Long, List<CityEdge>> adj) {
         if (visitedCityIds.contains(currentCityId)) {
             // City has already been visited, return
             return;
@@ -144,44 +133,17 @@ public class RouteDataService {
     }
 
 
-//    private static void findRouteIds(Long currentCityId, Long destinationCityId, List<Long> currentRouteIds, List<List<Long>> allRouteIds, Set<Long> visitedCityIds,Map<Long, List<CityEdge>> adj) {
-//        currentRouteIds.add(currentCityId);
-//        visitedCityIds.add(currentCityId);
-//        printAdjacencyList(adj);
-//        if (currentCityId.equals(destinationCityId)) {
-//
-//            allRouteIds.add(new ArrayList<>(currentRouteIds));
-//        } else {
-//            if(adj.get(currentCityId) == null){
-//                System.out.println("Hi");
-//                return;
-//            }
-//
-//
-//            for (CityEdge edge : adj.get(currentCityId)) {
-////				System.out.println("in else1");
-//                Long nextCityId = edge.getDestinationCityId();
-//                if (!visitedCityIds.contains(nextCityId)) {
-//                    findRouteIds(nextCityId, destinationCityId, currentRouteIds, allRouteIds, visitedCityIds,adj);
-//                }
-//            }
-//        }
-//
-//        currentRouteIds.remove(currentRouteIds.size() - 1);
-//        visitedCityIds.remove(currentCityId);
-//    }
-
-    public  static  void findFareandTime(Long source , Long dest , List<Route> routeData, List<Double> fare , List<String> mode, List<Double> travelTime, Route minFareid , Route minTimeid){
+    public static void findFareandTime(Long source, Long dest, List<Route> routeData, List<Double> fare, List<String> mode, List<Double> travelTime, Route minFareid, Route minTimeid) {
         Double miniFare = 100000.0;
 
 
         Double miniTime = 100000.0;
 
-        for(Route r : routeData){
-            if(Objects.equals(r.getSourceCityId(), source) && Objects.equals(r.getDestinationCityId(), dest)){
+        for (Route r : routeData) {
+            if (Objects.equals(r.getSourceCityId(), source) && Objects.equals(r.getDestinationCityId(), dest)) {
 //				System.out.println(r.getSourceCityId()+" "+r.getDestinationCityId());
 
-                if(miniFare>r.getFare()){
+                if (miniFare > r.getFare()) {
                     minFareid.setId(r.getId());
                     minFareid.setDestination(r.getDestination());
                     minFareid.setSource(r.getSource());
@@ -191,7 +153,7 @@ public class RouteDataService {
                     miniFare = r.getFare();
                 }
 //				System.out.println(miniTime+ " "+ r.getTravelTime());
-                if(miniTime>r.getTravelTime()){
+                if (miniTime > r.getTravelTime()) {
                     minTimeid.setId(r.getId());
                     minTimeid.setDestination(r.getDestination());
                     minTimeid.setSource(r.getSource());
@@ -208,341 +170,158 @@ public class RouteDataService {
             }
         }
 
-//		System.out.println("Mini" + minFareid.getId());
-
-//		for(int i = 0;i< fare.size();i++){
-//			System.out.println(mode.get(i) +" "+ fare.get(i));
-//		}
-
-
-
-
     }
-
 
     public List<Object> showCheapestRoute(String src, String des) {
+        Long sourceCityId = 1L; // Default source ID
+        Long destinationCityId = 6L; // Default destination ID
 
-        Long sourceCityId = 1L;
-        Long destinationCityId = 6L;
-
+        // Map source and destination names to their respective IDs
         for (City city : cityData) {
-            if(src.equals(city.getName())){
+            if (src.equals(city.getName())) {
                 sourceCityId = city.getId();
             }
-            if(des.equals(city.getName())){
+            if (des.equals(city.getName())) {
                 destinationCityId = city.getId();
             }
             cityMap.put(city.getId(), city.getName());
         }
 
-        System.out.println(sourceCityId+" "+ destinationCityId);
+        // Construct the adjacency list for Dijkstra's algorithm
+        CityAdjacencyList adjacencyList1 = constructAdjacencyList(cityData, routeData);
+        Map<Long, List<CityEdge>> adjacencyList = adjacencyList1.adjacencyList;
 
+        // Use the Dijkstra function to find the cheapest route
+        List<Long> cheapestPath = dijkstra(sourceCityId, destinationCityId, adjacencyList, true);
 
-
-
-        CityAdjacencyList adjacencyList1 = new CityAdjacencyList();
-        adjacencyList1 = constructAdjacencyList(cityData, routeData);
-        Map<Long, List<CityEdge>> adjacencyList= adjacencyList1.adjacencyList;
-        printAdjacencyList(adjacencyList);
-        List<List<Long>> allRouteIds = findAllRouteIds(sourceCityId, destinationCityId,adjacencyList);
-        Iterator<List<Long>> outerIterator = allRouteIds.iterator();
-//        List<String> tempFare = new ArrayList<>();
-//        List<List<String>> tempFare = new ArrayList<>();
-        List<List<Route>> tempFare = new ArrayList<>();
-        double minimumFare= 100000.0;
-        while (outerIterator.hasNext()) {
-            List<Long> innerList = outerIterator.next();
-            Long previousRouteId = null;
-            double miniFare = 0.0;
-            double miniTime = 0.0;
-            List<Route> miniFareRoute = new ArrayList<>();
-            List<Route> miniTimeRoute = new ArrayList<>();
-            for (Long routeId : innerList) {
-                if (previousRouteId != null) {
-                    List<Double> fare = new ArrayList<>();
-                    List<String> mode = new ArrayList<>();
-                    List<Double> travelTime = new ArrayList<>();
-
-//                    System.out.println(previousRouteId + " " + routeId);
-
-                    Route minFareid=new Route();
-                    Route minTimeid = new Route();
-                    findFareandTime(previousRouteId,routeId,routeData,fare,mode,travelTime,minFareid,minTimeid);
-
-//                    for(int i = 0;i < fare.size();i++){
-//                        System.out.println(mode.get(i) +" "+ fare.get(i)+" "+travelTime.get(i));
-//
-//                    }
-
-
-                    miniFareRoute.add(minFareid);
-                    miniFare += minFareid.getFare();
-//                    System.out.println(min);
-//                    System.out.println(miniFare);
-                    miniTime += minFareid.getTravelTime();
-
-
-
-                } else {
-//                    System.out.println("Route ID: " + routeId);
-                }
-
-                previousRouteId = routeId;
-            }
-
-            System.out.println(miniFareRoute);
-//            for(Route x: miniFareRoute){
-//                System.out.println(cityIdToNameMap.get(x.getSourceCityId())+ " "+ cityIdToNameMap.get(x.getDestinationCityId())+" "+fareMap.get(x.getId())+ " "+ x.getMode());
-//            }
-
-
-
-            // Initialize a StringBuilder to construct the string
-            StringBuilder routeInfoBuilder = new StringBuilder();
-            StringBuilder routeInfoBuilder1 = new StringBuilder();
-            int i =1;
-            List<String> innerRoute = new ArrayList<>();
-            System.out.println(miniFareRoute);
-
-
-//            showRoute showRoute = new showRoute
-
-            List<Route> res= new ArrayList<>();
-
-            for (Route x : miniFareRoute) {
-                // Append the data for each route to the StringBuilder
-                routeInfoBuilder.append("Route ").append(i).append(cityMap.get(x.getSourceCityId()))
-                        .append(" ")
-                        .append(cityMap.get(x.getDestinationCityId()))
-                        .append(" ")
-                        .append(x.getFare())
-                        .append(" ")
-                        .append(x.getMode())
-
-                        .append("\n");  // Add a newline to separate routes
-                String s = routeInfoBuilder.toString();
-                innerRoute.add(s);
-                i++;
-                res.add(x);
-            }
-
-
-
-//            routeInfoBuilder.append(" Total time : ").append(miniTime).append(" Total Fare ").append(miniFare);
-
-            routeInfoBuilder1.append(" Total time : ").append(miniTime).append(" Total Fare ").append(miniFare);
-            String s = routeInfoBuilder1.toString();
-            innerRoute.add(s);
-            String routeInfo = routeInfoBuilder.toString();  // Convert the StringBuilder to a string
-            if(minimumFare>miniFare){
-                if(tempFare.isEmpty()){
-                    tempFare.add(res);
-                }
-                else{
-                    tempFare.clear();
-                    tempFare.add(res);
-
-
-                }
-                minimumFare = miniFare;
-            }
-
-
-
-        }
-
+        // Prepare the result data
+        List<Object> data = new ArrayList<>();
         double totalTime = 0.0;
         double totalFare = 0.0;
 
-        List<Object> data = new ArrayList<>();
-        for (List<Route> routeList : tempFare) {
-            String sr = null;
-            String de = null;
-            String mode = null;
-            double travelTime = 0.0;
-            double fare = 0.0;
-            for (Route route : routeList) {
-                // Access individual Route object within each inner list
-                System.out.println(route);
-                sr = cityMap.get(route.getSourceCityId());
-
-                de = cityMap.get(route.getDestination());
-                mode = route.getMode();
-                travelTime = route.getTravelTime();
-                fare = route.getFare();
-                totalTime +=travelTime;
-                totalFare +=fare;
-
-
-                data.add(new Structure1(sr,de,mode,travelTime,fare));
-
-
-                // Add logic to format and display the data as needed
-            }
-
+        if (cheapestPath.isEmpty()) {
+            // Return empty if no path is found
+            return data; // Or handle this case as needed
         }
 
-        data.add(new Structure2(totalTime,totalFare));
-
-
-
-
-
-
-        return data; // Return the name of the view template
-    }
-
-
-    public List<Object> showFastestRoute(String src , String des) {
-        Long sourceCityId = 1L; // Replace with the actual source city ID
-        Long destinationCityId = 3L; // Replace with the actual destination city ID
-        for (City city : cityData) {
-            if(city.getName().equals(src)){
-                sourceCityId = city.getId();
-            }
-            if(city.getName().equals(des)){
-                destinationCityId = city.getId();
-            }
-            cityMap.put(city.getId(), city.getName());
-        }
-
-
-
-
-        CityAdjacencyList adjacencyList1 = new CityAdjacencyList();
-        adjacencyList1 = constructAdjacencyList(cityData, routeData);
-        Map<Long, List<CityEdge>> adjacencyList= adjacencyList1.adjacencyList;
-
-        List<List<Long>> allRouteIds = findAllRouteIds(sourceCityId, destinationCityId,adjacencyList);
-        System.out.println(allRouteIds);
-        Iterator<List<Long>> outerIterator = allRouteIds.iterator();
-        List<List<Route>> tempFare = new ArrayList<>();
-        double minimumFare= 100000.0;
-        double minimumTime = 100000.0;
-        while (outerIterator.hasNext()) {
-            List<Long> innerList = outerIterator.next();
-            Long previousRouteId = null;
-            double miniFare = 0.0;
-            double miniTime = 0.0;
-            List<Route> miniFareRoute = new ArrayList<>();
-            List<Route> miniTimeRoute = new ArrayList<>();
-            for (Long routeId : innerList) {
-                if (previousRouteId != null) {
-                    List<Double> fare = new ArrayList<>();
-                    List<String> mode = new ArrayList<>();
-                    List<Double> travelTime = new ArrayList<>();
-
-
-                    Route minFareid=new Route();
-                    Route minTimeid = new Route();
-                    findFareandTime(previousRouteId,routeId,routeData,fare,mode,travelTime,minFareid,minTimeid);
-
-
-                    miniFareRoute.add(minFareid);
-                    miniTimeRoute.add(minTimeid);
-                    miniFare += minTimeid.getFare();
-                    miniTime += minTimeid.getTravelTime();
-
-
-                } else {
-//                    System.out.println("Route ID: " + routeId);
-                }
-
-                previousRouteId = routeId;
-            }
-
-//
-
-            List<Route> res= new ArrayList<>();
-
-
-            // Initialize a StringBuilder to construct the string
-            StringBuilder routeInfoBuilder = new StringBuilder();
-            int i =1;
-            for (Route x : miniTimeRoute) {
-                // Append the data for each route to the StringBuilder
-                routeInfoBuilder.append("Route ").append(i).append(cityMap.get(x.getSourceCityId()))
-                        .append(" ")
-                        .append(cityMap.get(x.getDestinationCityId()))
-                        .append(" ")
-                        .append(x.getFare())
-                        .append(" ")
-                        .append(x.getMode())
-                        .append(x.getTravelTimeInHours())
-                        .append("\n");  // Add a newline to separate routes
-                        res.add(x);
-                i++;
-            }
-
-            routeInfoBuilder.append("Total Time ").append(miniTime).append("Total Fare ").append(miniFare);
-
-
-            String routeInfo = routeInfoBuilder.toString();  // Convert the StringBuilder to a string
-            System.out.println(minimumTime+" "+miniTime);
-            if(minimumTime>miniTime){
-                if(tempFare.isEmpty()){
-                    System.out.println("in mini");
-                    tempFare.add(res);
-
-                }
-                else{
-                    System.out.println("in mini");
-                    tempFare.clear();
-                    tempFare.add(res);
-
-
-                }
-                minimumTime = miniTime;
-            }
-
-
-        }
-
-
-
-        double totalTime = 0.0;
-        double totalFare = 0.0;
-
-        List<Object> data = new ArrayList<>();
-        for (List<Route> routeList : tempFare) {
-            String sr = null;
-            String de = null;
-            String mode = null;
-            double travelTime = 0.0;
-            double fare = 0.0;
-            for (Route route : routeList) {
-                // Access individual Route object within each inner list
-                System.out.println(route);
-                sr = cityMap.get(route.getSourceCityId());
-
-                de = cityMap.get(route.getDestination());
-                mode = route.getMode();
-                travelTime = route.getTravelTime();
-                fare = route.getFare();
+        // Reconstruct the routes based on the cheapest path
+        for (int i = 0; i < cheapestPath.size() - 1; i++) {
+            Long fromCityId = cheapestPath.get(i);
+            Long toCityId = cheapestPath.get(i + 1);
+            Route route = findRoute(fromCityId, toCityId, routeData); // Implement this method to get the Route object
+            if (route != null) {
+                String sr = cityMap.get(route.getSourceCityId());
+                String de = cityMap.get(route.getDestinationCityId());
+                String mode = route.getMode();
+                double travelTime = route.getTravelTime();
+                double fare = route.getFare();
                 totalTime += travelTime;
                 totalFare += fare;
 
-
                 data.add(new Structure1(sr, de, mode, travelTime, fare));
-
-
-                // Add logic to format and display the data as needed
             }
-
         }
 
-        data.add(new Structure2(totalTime,totalFare));
+        data.add(new Structure2(totalTime, totalFare));
+        return data;
+    }
 
+    public List<Object> showFastestRoute(String src, String des) {
+        Long sourceCityId = null; // To be determined from the city name
+        Long destinationCityId = null; // To be determined from the city name
 
+        // Map for city IDs to names
+        for (City city : cityData) {
+            if (city.getName().equals(src)) {
+                sourceCityId = city.getId();
+            }
+            if (city.getName().equals(des)) {
+                destinationCityId = city.getId();
+            }
+            cityMap.put(city.getId(), city.getName());
+        }
 
+        // Build the adjacency list
+        CityAdjacencyList adjacencyList = constructAdjacencyList(cityData, routeData);
+        Map<Long, List<CityEdge>> graph = adjacencyList.adjacencyList;
 
-        // Add logic to display the cheapest rout
+        // Find the fastest route using Dijkstra's algorithm
+        List<Long> fastestRoute = dijkstra(sourceCityId, destinationCityId, graph, false);
+        double totalTravelTime = 0.0;
+        double totalFare = 0.0;
 
+        List<Object> data = new ArrayList<>(); // Use List<Object> to hold all results
+        for (int i = 0; i < fastestRoute.size() - 1; i++) {
+            Long currentCityId = fastestRoute.get(i);
+            Long nextCityId = fastestRoute.get(i + 1);
 
+            // Get route details
+            Route route = findRoute(currentCityId, nextCityId, routeData);
+            if (route != null) {
+                totalTravelTime += route.getTravelTime();
+                totalFare += route.getFare();
+                // Add route details to the data
+                data.add(new Structure1(cityMap.get(currentCityId), cityMap.get(nextCityId), route.getMode(), route.getTravelTime(), route.getFare()));
+            }
+        }
 
+        // Add total time and fare
+        data.add(new Structure2(totalTravelTime, totalFare)); // Adjust Structure2 as needed
 
+        return data; // Return the data list containing route details and totals
+    }
 
-        return data; // Return the name of the view template
+    // Dijkstra's Algorithm for finding the fastest route
+    private List<Long> dijkstra(Long sourceCityId, Long destinationCityId, Map<Long, List<CityEdge>> graph, boolean minimizeFare) {
+        Map<Long, Double> distances = new HashMap<>();
+        Map<Long, Long> previous = new HashMap<>();
+        PriorityQueue<Long> priorityQueue = new PriorityQueue<>(Comparator.comparingDouble(distances::get));
+
+        // Initialize distances
+        for (Long cityId : graph.keySet()) {
+            distances.put(cityId, Double.MAX_VALUE);
+        }
+        distances.put(sourceCityId, 0.0);
+        priorityQueue.add(sourceCityId);
+
+        while (!priorityQueue.isEmpty()) {
+            Long currentCityId = priorityQueue.poll();
+
+            if (currentCityId.equals(destinationCityId)) {
+                break; // Found the destination
+            }
+
+            for (CityEdge edge : graph.get(currentCityId)) {
+                Long neighborCityId = edge.getDestinationCityId();
+                double edgeWeight = minimizeFare ? edge.getFare() : edge.getTravelTime();
+
+                // Relaxation step
+                double newDistance = distances.get(currentCityId) + edgeWeight;
+                if (newDistance < distances.get(neighborCityId)) {
+                    distances.put(neighborCityId, newDistance);
+                    previous.put(neighborCityId, currentCityId);
+                    priorityQueue.add(neighborCityId);
+                }
+            }
+        }
+
+        // Reconstruct the path
+        List<Long> path = new ArrayList<>();
+        for (Long at = destinationCityId; at != null; at = previous.get(at)) {
+            path.add(at);
+        }
+        Collections.reverse(path); // Reverse to get the correct order
+        return path;
+    }
+
+    // Helper method to find route details between two cities
+    private Route findRoute(Long sourceId, Long destinationId, List<Route> routes) {
+        for (Route route : routes) {
+            if (route.getSourceCityId().equals(sourceId) && route.getDestinationCityId().equals(destinationId)) {
+                return route;
+            }
+        }
+        return null; // No route found
     }
 
     private List<Route> getRouteDetails(List<Long> routeIds) {
@@ -558,8 +337,8 @@ public class RouteDataService {
 
     private String formatRoutes(List<Route> routeDetails) {
         StringBuilder formattedRoutes = new StringBuilder();
-        for(City c: cityData){
-            cityMap.put(c.getId(),c.getName());
+        for (City c : cityData) {
+            cityMap.put(c.getId(), c.getName());
         }
         for (Route route : routeDetails) {
             formattedRoutes.append("Route ID: ").append(route.getId()).append("  ");
@@ -577,22 +356,21 @@ public class RouteDataService {
         City sourceCity = cityRepository.findByName(src);
         City destinationCity = cityRepository.findByName(dest);
         Long sourceCityId = 0L;
-        Long destinationCityId =0L;
+        Long destinationCityId = 0L;
 
-        for(City c: cityData){
-            if(Objects.equals(c.getName(), src)){
+        for (City c : cityData) {
+            if (Objects.equals(c.getName(), src)) {
                 sourceCityId = c.getId();
             }
-            if(Objects.equals(c.getName(), dest)){
+            if (Objects.equals(c.getName(), dest)) {
                 destinationCityId = c.getId();
             }
         }
 
 
-
         // Create an adjacency list of cities and their routes
         CityAdjacencyList adjacencyList1 = constructAdjacencyList(cityData, routeData);
-        Map<Long, List<CityEdge>> adjacencyList= adjacencyList1.adjacencyList;
+        Map<Long, List<CityEdge>> adjacencyList = adjacencyList1.adjacencyList;
         System.out.println(adjacencyList1);
         printAdjacencyList(adjacencyList);
 //        // Use graph traversal to find all routes
@@ -607,149 +385,4 @@ public class RouteDataService {
         return allRoutes;
 
     }
-
-
-//    public List<String> showFastestRoute(String src , String des) {
-//        Long sourceCityId = 1L; // Replace with the actual source city ID
-//        Long destinationCityId = 3L; // Replace with the actual destination city ID
-//
-//
-//
-//        Map<Long, String> cityIdToNameMap = new HashMap<>();
-//
-//        for (City city : cityData) {
-//
-//            if(city.getName().equals(src)){
-//
-//                sourceCityId = city.getId();
-//
-//
-//
-//            }
-//            if(city.getName().equals(des)){
-//                destinationCityId = city.getId();
-//            }
-//            cityIdToNameMap.put(city.getId(), city.getName());
-//        }
-//
-//
-//
-//
-//
-//
-//
-////        Map<Long, Double> fareMap = new HashMap<>();
-////
-////        for(Fare fa: fareData){
-////            fareMap.put(fa.route,fa.fare);
-////        }
-//
-//
-//
-//        CityAdjacencyList adjacencyList1 = new CityAdjacencyList();
-//        adjacencyList1 = constructAdjacencyList(cityData, routeData);
-//        Map<Long, List<CityEdge>> adjacencyList= adjacencyList1.adjacencyList;
-//
-//        System.out.println(adjacencyList);
-////
-//        List<List<Long>> allRouteIds = findAllRouteIds(sourceCityId, destinationCityId,adjacencyList);
-//        System.out.println(allRouteIds);
-////        Iterator<List<Long>> outerIterator = allRouteIds.iterator();
-//        List<String> tempFare = new ArrayList<>();
-////        double minimumFare= 100000.0;
-////        double minimumTime = 100000.0;
-////        while (outerIterator.hasNext()) {
-////            List<Long> innerList = outerIterator.next();
-////            Long previousRouteId = null;
-////            double miniFare = 0.0;
-////            double miniTime = 0.0;
-////            List<Route> miniFareRoute = new ArrayList<>();
-////            List<Route> miniTimeRoute = new ArrayList<>();
-////            for (Long routeId : innerList) {
-////                if (previousRouteId != null) {
-////                    List<Double> fare = new ArrayList<>();
-////                    List<String> mode = new ArrayList<>();
-////                    List<Double> travelTime = new ArrayList<>();
-////
-////
-////                    Route minFareid=new Route();
-////                    Route minTimeid = new Route();
-////                    findFareandTime(previousRouteId,routeId,routeData,fare,mode,travelTime,minFareid,minTimeid);
-////
-////
-////
-////
-////                    miniFareRoute.add(minFareid);
-////                    miniTimeRoute.add(minTimeid);
-////                    miniFare += minTimeid.getFare();
-////                    miniTime += minTimeid.getTravelTime();
-////
-////
-////                } else {
-//////                    System.out.println("Route ID: " + routeId);
-////                }
-////
-////                previousRouteId = routeId;
-////            }
-////
-//////
-////
-////
-////
-////            // Initialize a StringBuilder to construct the string
-////            StringBuilder routeInfoBuilder = new StringBuilder();
-////            int i =1;
-////            for (Route x : miniTimeRoute) {
-////                // Append the data for each route to the StringBuilder
-////                routeInfoBuilder.append("Route ").append(i).append(cityIdToNameMap.get(x.getSourceCityId()))
-////                        .append(" ")
-////                        .append(cityIdToNameMap.get(x.getDestinationCityId()))
-////                        .append(" ")
-////                        .append(x.getFare())
-////                        .append(" ")
-////                        .append(x.getMode())
-////                        .append(x.getTravelTimeInHours())
-////                        .append("\n");  // Add a newline to separate routes
-////                i++;
-////            }
-////
-////            routeInfoBuilder.append("Total Fare ").append(miniFare);
-////
-////
-////            String routeInfo = routeInfoBuilder.toString();  // Convert the StringBuilder to a string
-////            System.out.println(minimumTime+" "+miniTime);
-////            if(minimumTime>miniTime){
-////                if(tempFare.isEmpty()){
-////                    System.out.println("in mini");
-////                    tempFare.add(routeInfo);
-////
-////                }
-////                else{
-////                    System.out.println("in mini");
-////                    tempFare.clear();
-////                    tempFare.add(routeInfo);
-////
-////
-////                }
-////                minimumTime = miniTime;
-////            }
-////
-////
-////        }
-////
-////
-////        // Add logic to display the cheapest rout
-////
-////
-////
-////
-//
-//        return tempFare; // Return the name of the view template
-//    }
-
-
-
-
-
-
 }
