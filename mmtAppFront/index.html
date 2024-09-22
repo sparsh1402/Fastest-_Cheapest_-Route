@@ -1,38 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Route Finder</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-<body>
-    <h1>Route Finder</h1>
-    <label for="start-journey">Start Journey:</label>
-    <select id="start-journey">
-        <option value="Pune">Pune</option>
-        <option value="Shirdi">Shirdi</option>
-        <option value="Mumbai">Mumbai</option>
-        <option value="Delhi">Delhi</option>
-        <option value="Banglore">Banglore</option>
-        <option value="Chennai">Chennai</option>
-        <option value="Mysore">Mysore</option>
-        <option value="Kolkata">Kolkata</option>
-    </select>
-    <label for="end-journey">End Journey:</label>
-    <select id="end-journey">
-        <option value="Pune">Pune</option>
-        <option value="Shirdi">Shirdi</option>
-        <option value="Mumbai">Mumbai</option>
-        <option value="Delhi">Delhi</option>
-        <option value="Banglore">Banglore</option>
-        <option value="Chennai">Chennai</option>
-        <option value="Mysore">Mysore</option>
-        <option value="Kolkata">Kolkata</option>
-    </select>
-    <button id="cheapest-route">Cheapest Route</button>
-    <button id="fastest-route">Fastest Route</button>
-    <div id="route-details"></div>
-
+<body class="bg-dark text-light">
+    <div class="container">
+        <h1 class="text-center">Route Finder</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="route-details" class="border rounded p-3 bg-secondary"></div>
+            </div>
+            <div class="col-md-6 text-right">
+                <div class="form-group">
+                    <label for="start-journey">Start Journey:</label>
+                    <select id="start-journey" class="form-control mb-3">
+                        <option value="Pune">Pune</option>
+                        <option value="Shirdi">Shirdi</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Mysore">Mysore</option>
+                        <option value="Kolkata">Kolkata</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="end-journey">End Journey:</label>
+                    <select id="end-journey" class="form-control mb-3">
+                        <option value="Pune">Pune</option>
+                        <option value="Shirdi">Shirdi</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Mysore">Mysore</option>
+                        <option value="Kolkata">Kolkata</option>
+                    </select>
+                </div>
+                <button id="cheapest-route" class="btn btn-danger">Cheapest Route</button>
+                <button id="fastest-route" class="btn btn-success">Fastest Route</button>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
-
 </body>
 </html>
