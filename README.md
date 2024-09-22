@@ -1,4 +1,4 @@
-# Route Finder
+# MMT
 
 This project is used to find the cheapest and fastest route between two cities.
 
